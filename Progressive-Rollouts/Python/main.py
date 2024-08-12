@@ -4,6 +4,7 @@ import os
 from dotenv import load_dotenv
 import ldclient
 from ldclient.config import Config
+from ldclient import Context 
 
 load_dotenv()
 
@@ -53,10 +54,12 @@ def get_tracks_from_db():
     conn.close()
     return tracks
 
-## Main app logic, note how there is two different versions, a usse database version and use JSON version.  
+## Main app logic, note how there is two different versions, a use database version and use JSON version.  
+
+from ldclient.context import Context
 
 def run_app():
-    user = {"key": "context-key-123", "custom": {"groups": ["beta_testers"]}}
+    user = Context.builder('context-key-123').set('groups', ['beta_testers']).build()
     use_database = ld_client.variation("use-database", user, False)
 
     if use_database:
