@@ -1,16 +1,14 @@
 import json
 import sqlite3
 import os
-from dotenv import load_dotenv
 import ldclient
 from ldclient.config import Config
 from ldclient import Context 
 
-load_dotenv()
 
 ## Initialize LaunchDarkly client using the SDK key from your .env file
 
-ld_sdk_key = os.getenv('LD_SDK_KEY')
+ld_sdk_key = os.environ.get('LD_SDK_KEY')
 if not ld_sdk_key:
     raise ValueError("LD_SDK_KEY not found in environment variables")
 
