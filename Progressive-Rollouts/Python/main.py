@@ -29,11 +29,27 @@ with open('dj_toggles_top_30.json', 'r') as file:
 def create_database():
     conn = sqlite3.connect('tracklist.db')
     c = conn.cursor()
+    
+    # Create the table if it doesn't exist
     c.execute('''CREATE TABLE IF NOT EXISTS tracks
                  (track_name TEXT, track_length TEXT, artist TEXT, album_name TEXT, track_number INTEGER, release_date TEXT)''')
+    
+    # Remove existing duplicates
+    c.execute('''DELETE FROM tracks WHERE rowid NOT IN 
+                 (SELECT MIN(rowid) FROM tracks GROUP BY track_name, artist)''')
+    
+    # Create the unique index
+    c.execute('''CREATE UNIQUE INDEX IF NOT EXISTS idx_track_artist 
+                 ON tracks(track_name, artist)''')
+    
+    # Insert new tracks, ignoring duplicates
     for track in tracklist:
-        c.execute("INSERT INTO tracks VALUES (?, ?, ?, ?, ?, ?)", 
-                  (track['track_name'], track['track_length'], track['artist'], track['album_name'], track['track_number'], track['release_date']))
+        c.execute('''INSERT OR IGNORE INTO tracks 
+                     (track_name, track_length, artist, album_name, track_number, release_date)
+                     VALUES (?, ?, ?, ?, ?, ?)''', 
+                  (track['track_name'], track['track_length'], track['artist'], 
+                   track['album_name'], track['track_number'], track['release_date']))
+    
     conn.commit()
     conn.close()
 
