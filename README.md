@@ -4,7 +4,7 @@ Risk Management Tutorials in the Python Stack.
 ## Bad Ship Happens
 We get it, bad ship happens. However, disruptions don't have to be.  With LaunchDarkly, you can manage your risk and mitigate disruptions.
 
-In this repo you will find 4 different ways that LaunchDarkly helps you mitigate risk, and how to implement them in your own environment. 
+In this repo you will find 4 different ways that LaunchDarkly helps you mitigate risk, and how to implement them in your own environment.
 
 ### Progressive Rollouts
 Gradually introduce new features within your application which allows for controlled exposure and real-time impact assessment. Instead of deploying new features to all users simultaneously, start with a small segment—perhaps 1%, then increase to 5%, and 10%—moving to the next group only when you're confident in the stability of your code. This phased approach helps contain any potential disruptions, ensuring that small updates don’t become big problems.
