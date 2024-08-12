@@ -77,13 +77,13 @@ def run_app():
     use_database = ld_client.variation("use-database", user, False)
 
     if use_database:
-        print("Using database version")
+        print("DJ Toggle's Top 30 Tracks")
         tracks = get_tracks_from_db()
     else:
-        print("Using JSON version")
+        print("DJ Toggle's Top 10 Tracks")
         tracks = get_tracks_from_json()
 
-    print("Top 10 Tracks:")
+    print("DJ Toggle's Top Tracks:")
     for i, track in enumerate(tracks, 1):
         print(f"{i}. {track}")
 
