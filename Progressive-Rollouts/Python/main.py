@@ -47,7 +47,7 @@ def get_tracks_from_json():
 def get_tracks_from_db():
     conn = sqlite3.connect('tracklist.db')
     c = conn.cursor()
-    c.execute("SELECT track_name FROM tracks LIMIT 10")
+    c.execute("SELECT track_name FROM tracks")
     tracks = [row[0] for row in c.fetchall()]
     conn.close()
     return tracks
