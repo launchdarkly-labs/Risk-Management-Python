@@ -12,13 +12,15 @@ load_dotenv()
 ld_sdk_key = os.getenv('LD_SDK_KEY')
 if not ld_sdk_key:
     raise ValueError("LD_SDK_KEY not found in environment variables")
+
+ldclient.set_config(Config(ld_sdk_key))
 ld_client = ldclient.get()
-if ldclient.get().is_initialized():
+
+if ld_client.is_initialized():
     print("LaunchDarkly client initialized successfully")
 else:
     print("LaunchDarkly client failed to initialize")
     exit(1)
-
 
 ## Load tracklist from your JSON file
 with open('dj_toggles_top_30.json', 'r') as file:
@@ -54,7 +56,7 @@ def get_tracks_from_db():
 ## Main app logic, note how there is two different versions, a usse database version and use JSON version.  
 
 def run_app():
-    user = {"key": "user-key-123", "custom": {"groups": ["beta_testers"]}}
+    user = {"key": "context-key-123", "custom": {"groups": ["beta_testers"]}}
     use_database = ld_client.variation("use-database", user, False)
 
     if use_database:
