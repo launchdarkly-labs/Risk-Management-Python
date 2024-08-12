@@ -10,7 +10,15 @@ load_dotenv()
 ## Initialize LaunchDarkly client using the SDK key from your .env file
 
 ld_sdk_key = os.getenv('LD_SDK_KEY')
-ld_client = ldclient.set_config(Config(ld_sdk_key))
+if not ld_sdk_key:
+    raise ValueError("LD_SDK_KEY not found in environment variables")
+ld_client = ldclient.get()
+if ldclient.get().is_initialized():
+    print("LaunchDarkly client initialized successfully")
+else:
+    print("LaunchDarkly client failed to initialize")
+    exit(1)
+
 
 ## Load tracklist from your JSON file
 with open('dj_toggles_top_30.json', 'r') as file:
