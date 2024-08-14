@@ -28,15 +28,16 @@ Progressive rollout is beneficial for several reasons:
 
 1. Install required dependencies:
 
-```pip install ldclient-py```
+```pip install launchdarkly-server-sdk python-dotenv```
 
 
-2. Set up your LaunchDarkly SDK key as an environment variable:
-
-```export LD_SDK_KEY=your_sdk_key_here```
+2. Create a `.env` file in the project root and add your LaunchDarkly SDK key:
 
 
-3. Run the application:
+```LD_SDK_KEY=your_sdk_key_here```
+
+
+1. Run the application:
 
 ```python main.py```
 
