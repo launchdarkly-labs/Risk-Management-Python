@@ -74,7 +74,7 @@ from ldclient.context import Context
 
 def run_app():
     user = Context.builder('context-key-123').set('groups', ['beta_testers']).build()
-    use_database = ld_client.variation("use-database", user, False)
+    use_database = ld_client.variation("progressive-rollout", user, False)
 
     if use_database:
         print("The whole playlist")
