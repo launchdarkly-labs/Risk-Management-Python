@@ -1,0 +1,9 @@
+certifi==2024.7.4
+expiringdict==1.2.2
+launchdarkly-eventsource==1.2.0
+launchdarkly-server-sdk==9.5.0
+pyRFC3339==1.1
+python-dotenv==1.0.1
+pytz==2024.1
+semver==3.0.2
+urllib3==2.2.2
