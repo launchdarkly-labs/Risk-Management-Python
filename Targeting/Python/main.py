@@ -3,8 +3,7 @@ import sqlite3
 import os
 import ldclient
 from ldclient.config import Config
-from ldclient import Context 
-
+from ldclient import Context
 
 ## Initialize LaunchDarkly client using the SDK key from your .env file
 
@@ -22,7 +21,7 @@ else:
     exit(1)
 
 ## Load tracklist from your JSON file
-with open('dj_toggles_top_30.json', 'r') as file:
+with open('dj_toggles_top_songs.json', 'r') as file:
     tracklist = json.load(file)
 
 ## Set up SQLite database
@@ -73,8 +72,11 @@ def get_tracks_from_db():
 from ldclient.context import Context
 
 def run_app():
-    user = Context.builder('context-key-123').set('groups', ['beta_testers']).build()
-    use_database = ld_client.variation("progressive-rollout", user, False)
+    sally_super_fan = Context.builder('sally-123').set('groups', ['super_fans']).build()
+    mainstream_megan = Context.builder('megan-456').set('groups', ['mainstream_listeners']).build()
+
+    use_database = ld_client.variation("use-database", sally_super_fan, False)
+    show_release_dates = ld_client.variation("show-release-dates", mainstream_megan, False)
 
     if use_database:
         print("The whole playlist")
@@ -85,9 +87,13 @@ def run_app():
 
     print("DJ Toggle's Top Tracks")
     for i, track in enumerate(tracks, 1):
-        print(f"{i}. {track}")
+        track_info = f"{i}. {track['track_name']} by {track['artist']}"
+        if show_release_dates:
+            track_info += f" (Released: {track['release_date']})"
+        print(track_info)
 
-## run the application and close the client
+
+## Run the application and close the client
 if __name__ == "__main__":
     run_app()
     ld_client.close()
