@@ -72,17 +72,17 @@ def get_tracks_from_db():
 from ldclient.context import Context
 
 def run_app():
-    sally_super_fan = Context.builder('sally-123').set('groups', ['super_fans']).build()
-    mainstream_megan = Context.builder('megan-456').set('groups', ['mainstream_listeners']).build()
+    dj_toggle_team = Context.builder('dj-toggle-123').set('groups', ['dj_team']).build()
+    general_audience = Context.builder('general-456').set('groups', ['general_audience']).build()
 
-    use_database = ld_client.variation("use-database", sally_super_fan, False)
-    show_release_dates = ld_client.variation("show-release-dates", mainstream_megan, False)
+    use_database = ld_client.variation("use-database", dj_toggle_team, False)
+    show_release_dates = ld_client.variation("show-release-dates", general_audience, False)
 
     if use_database:
-        print("The whole playlist")
+        print("Full playlist for DJ Toggle's team")
         tracks = get_tracks_from_db()
     else:
-        print("The top 10")
+        print("Top 10 tracks for general audience")
         tracks = get_tracks_from_json()
 
     print("DJ Toggle's Top Tracks")
@@ -91,7 +91,6 @@ def run_app():
         if show_release_dates:
             track_info += f" (Released: {track['release_date']})"
         print(track_info)
-
 
 ## Run the application and close the client
 if __name__ == "__main__":

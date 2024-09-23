@@ -2,7 +2,7 @@
 
 ## Overview
 
-## Why Use Progressive Rollout?
+## Why create segments? Why use Targeting?
 
 ## Setup and Usage
 
