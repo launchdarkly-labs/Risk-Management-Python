@@ -71,13 +71,19 @@ def get_tracks_from_db():
 
 # Main app logic using LaunchDarkly targeting and segmentation
 def run_app():
-    dj_toggle_team = Context.builder('dj-toggle-123').set('groups', ['dj_team']).build()
-    general_audience = Context.builder('general-456').set('groups', ['general_audience']).build()
+    dj_toggle_team = Context.builder('dj-toggle-123') \
+        .set('groups', ['dj_team']) \
+        .set("email", "thetoggle@djtoggle.com") \
+        .build()
+    general_audience = Context.builder('general-456') \
+        .set('groups', ['general_audience']) \ 
+        .set("email", "sandy@example.com") \
+        .build()
 
-    use_database = ld_client.variation("use-database", dj_toggle_team, False)
+    full-tracklist = ld_client.variation("full-tracklist", dj_toggle_team, False)
     show_release_dates = ld_client.variation("show-release-dates", general_audience, False)
 
-    if use_database:
+    if full-tracklist:
         print("Full playlist for DJ Toggle's team")
         tracks = get_tracks_from_db()
     else:
