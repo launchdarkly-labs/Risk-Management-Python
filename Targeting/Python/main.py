@@ -1,18 +1,16 @@
 import json
 import sqlite3
 import os
-from dotenv import load_dotenv
 import ldclient
 from ldclient.config import Config
 from ldclient import Context
-
+from dotenv import load_dotenv
 
 # Load environment variables from .env file
 load_dotenv()
 
-## Initialize LaunchDarkly client using the SDK key from your .env file
-
-ld_sdk_key = os.environ.get('LD_SDK_KEY')
+# Initialize LaunchDarkly client using the SDK key from your .env file
+ld_sdk_key = os.getenv('LD_SDK_KEY')
 if not ld_sdk_key:
     raise ValueError("LD_SDK_KEY not found in environment variables")
 
@@ -25,11 +23,11 @@ else:
     print("LaunchDarkly client failed to initialize")
     exit(1)
 
-## Load tracklist from your JSON file
+# Load tracklist from your JSON file
 with open('dj_toggles_top_songs.json', 'r') as file:
     tracklist = json.load(file)
 
-## Set up SQLite database
+# Set up SQLite database
 def create_database():
     conn = sqlite3.connect('tracklist.db')
     c = conn.cursor()
@@ -59,23 +57,19 @@ def create_database():
 
 create_database()
 
-## Get tracks from the JSON and database
-
+# Get tracks from the JSON and database
 def get_tracks_from_json():
-    return [track['track_name'] for track in tracklist[:10]]
+    return tracklist[:10]
 
 def get_tracks_from_db():
     conn = sqlite3.connect('tracklist.db')
     c = conn.cursor()
-    c.execute("SELECT track_name FROM tracks")
-    tracks = [row[0] for row in c.fetchall()]
+    c.execute("SELECT * FROM tracks")
+    tracks = [dict(zip([column[0] for column in c.description], row)) for row in c.fetchall()]
     conn.close()
     return tracks
 
-## Main app logic, note how there is two different versions, a use database version and use JSON version.  
-
-from ldclient.context import Context
-
+# Main app logic using LaunchDarkly targeting and segmentation
 def run_app():
     dj_toggle_team = Context.builder('dj-toggle-123').set('groups', ['dj_team']).build()
     general_audience = Context.builder('general-456').set('groups', ['general_audience']).build()
@@ -93,11 +87,11 @@ def run_app():
     print("DJ Toggle's Top Tracks")
     for i, track in enumerate(tracks, 1):
         track_info = f"{i}. {track['track_name']} by {track['artist']}"
-        if show_release_dates:
+        if show_release_dates and 'release_date' in track:
             track_info += f" (Released: {track['release_date']})"
         print(track_info)
 
-## Run the application and close the client
+# Run the application and close the LaunchDarkly client
 if __name__ == "__main__":
     run_app()
     ld_client.close()
