@@ -1,9 +1,14 @@
 import json
 import sqlite3
 import os
+from dotenv import load_dotenv
 import ldclient
 from ldclient.config import Config
 from ldclient import Context
+
+
+# Load environment variables from .env file
+load_dotenv()
 
 ## Initialize LaunchDarkly client using the SDK key from your .env file
 
