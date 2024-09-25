@@ -75,7 +75,7 @@ def run_app():
     dj_toggle_team = Context.builder('dj-toggle-123').set('groups', ['dj_team']).build()
     general_audience = Context.builder('general-456').set('groups', ['general_audience']).build()
 
-    full_tracklist = ld_client.variation("full-tracklist", genearl_audience, True)
+    full_tracklist = ld_client.variation("full-tracklist", general_audience, True)
 
     if full_tracklist:
         print("Full playlist for DJ Toggle's team")
