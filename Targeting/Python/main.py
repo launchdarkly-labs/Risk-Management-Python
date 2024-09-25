@@ -72,7 +72,7 @@ def get_tracks_from_db():
 # Main app logic using LaunchDarkly targeting and segmentation  
 def run_app():
     # Create LaunchDarkly contexts for targeting
-    dj_toggle_team = Context.builder('dj-toggle-123').set('groups', ['dj_team']).build()
+    dj_toggle_team = Context.builder('dj-toggle-123').set('groups', ['dj_team'])    .set("email", "thetoggleyist@djtoggle.com").build()
     general_audience = Context.builder('general-456').set('groups', ['general_audience']).build()
 
     full_tracklist = ld_client.variation("full-tracklist", general_audience, True)
