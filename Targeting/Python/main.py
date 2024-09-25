@@ -73,9 +73,9 @@ def get_tracks_from_db():
 def run_app():
     # Create LaunchDarkly contexts for targeting
     dj_toggle_team = Context.builder('dj-toggle-123').set('groups', ['dj_team']).build()
-    # general_audience = Context.builder('general-456').set('groups', ['general_audience']).build()
+    general_audience = Context.builder('general-456').set('groups', ['general_audience']).build()
 
-    full_tracklist = ld_client.variation("full-tracklist", dj_toggle_team, True)
+    full_tracklist = ld_client.variation("full-tracklist", genearl_audience, True)
 
     if full_tracklist:
         print("Full playlist for DJ Toggle's team")
