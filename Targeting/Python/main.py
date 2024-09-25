@@ -74,7 +74,7 @@ def run_app():
     dj_toggle_team = Context.builder('dj-toggle-123').set('groups', ['dj_team']).build()
     general_audience = Context.builder('general-456').set('groups', ['general_audience']).build()
 
-    full_tracklist = ld_client.variation("full-tracklist", dj_toggle_team, False)
+    full_tracklist = ld_client.variation("full-tracklist", dj_toggle_team, True)
     show_release_dates = ld_client.variation("show-release-dates", general_audience, False)
 
     if full_tracklist:
