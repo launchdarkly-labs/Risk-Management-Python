@@ -71,11 +71,11 @@ def get_tracks_from_db():
 
 # Main app logic using LaunchDarkly targeting and segmentation  
 def run_app():
+    # Create LaunchDarkly contexts for targeting
     dj_toggle_team = Context.builder('dj-toggle-123').set('groups', ['dj_team']).build()
-    general_audience = Context.builder('general-456').set('groups', ['general_audience']).build()
+    # general_audience = Context.builder('general-456').set('groups', ['general_audience']).build()
 
-    full_tracklist = ld_client.variation("full-tracklist", dj_toggle_team, False)
-    show_release_dates = ld_client.variation("show-release-dates", general_audience, False)
+    full_tracklist = ld_client.variation("full-tracklist", dj_toggle_team, True)
 
     if full_tracklist:
         print("Full playlist for DJ Toggle's team")
@@ -87,8 +87,6 @@ def run_app():
     print("DJ Toggle's Top Tracks")
     for i, track in enumerate(tracks, 1):
         track_info = f"{i}. {track['track_name']} by {track['artist']}"
-        if show_release_dates and 'release_date' in track:
-            track_info += f" (Released: {track['release_date']})"
         print(track_info)
 
 # Run the application and close the LaunchDarkly client
